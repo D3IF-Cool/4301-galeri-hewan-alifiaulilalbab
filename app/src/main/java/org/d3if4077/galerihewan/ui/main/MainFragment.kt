@@ -10,6 +10,7 @@ import androidx.lifecycle.observe
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.RecyclerView
 import org.d3if4077.galerihewan.databinding.FragmentMainBinding
+import org.d3if4077.galerihewan.network.HewanApi
 
 class MainFragment: Fragment() {
 
@@ -40,6 +41,22 @@ class MainFragment: Fragment() {
         viewModel.getData().observe(viewLifecycleOwner, {
             myAdapter.updateData(it)
         })
+    }
+
+    private fun updateProgress(status: HewanApi.ApiStatus) {
+        when(status) {
+            HewanApi.ApiStatus.LOADING-> {
+                binding.progressBar.visibility = View.VISIBLE
+            }
+        HewanApi.ApiStatus.SUCCESS -> {
+            binding.progressBar.visibility = View.GONE
+        }
+        HewanApi.ApiStatus.FAILED -> {
+            binding.progressBar.visibility = View.GONE
+            binding.networkError.visibility = View.VISIBLE
+
+            }
+        }
     }
 }
 
